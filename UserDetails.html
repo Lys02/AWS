@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link href="css/style.css" rel="stylesheet"> -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.181.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script>
+
+            pullParams = {
+                FunctionName: 'RegisterUser',
+                InvocationType: 'RequestResponse',
+                LogType: 'None'
+
+            }
+            AWS.config.update({ region: 'ap-south-1' });
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: 'ap-south-1_KWjv9W0Dm' });
+            var lambda = new AWS.Lambda({ region: 'ap-south-1', apiVersion: '2015-03-31' });
+            $(function () {
+                $("#create_profile").click(function () {
+                    console.log("in function")
+                    lambda.invoke(pullParams, function (err, data) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            var data = JSON.parse(data.Payload)
+                            console.log(data)
+                        }
+                    })
+                })
+
+            })
+       
+    </script>
+</head>
+
+<body>
+    <ul>
+        <li>
+            <button id="create_profile"> Create Profile</button>
+        </li>
+        <li>
+            <button> Update Profile</button>
+        </li>
+        <li>
+            <button>Delete Profile</button>
+        </li>
+    </ul>
+</body>
+
+</html>
